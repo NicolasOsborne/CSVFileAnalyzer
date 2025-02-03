@@ -6,23 +6,23 @@ Projet d'automatisation d'un pipeline d'analyse de fichiers CSV dans le cadre du
 
 Ce projet a été réalisé par le groupe composé de : Adrien CALAIS, Eva TRAPANI, Wilson BEYLER, Baptiste SAUVAGE, Nicolas OSBORNE.
 
-L'objectif du projet est le suivant : 
+L'objectif du projet est le suivant :
+
 - L'envoi de fichiers CSV via un formulaire dans une interface web.
 - L'analyse automatique des fichiers sur un service cloud serverless.
 - La détection d'anomalies dans les données.
 - La visualisation des résultats via l'interface web.
 - L'envoi d'un récapitulatif des analyses par notification (email, push...).
-- 
+-
 
 ### 🛠️ Technologies utilisées
 
 - **React** : Pour l'interface web
+- **TypeScript**
 
 ## 📋 Prérequis
 
-
 ## 🚀 Guide d'installation
-
 
 ### 1️⃣ Cloner le dépôt
 
@@ -35,12 +35,11 @@ L'objectif du projet est le suivant :
 ### 2️⃣ Installer les dépendances :
 
 ```bash
+- cd frontend
 - npm install
 ```
 
 ### 3️⃣ Configurer les variables d'environnement :
-
-
 
 ### 4️⃣ Lancer le projet :
 
