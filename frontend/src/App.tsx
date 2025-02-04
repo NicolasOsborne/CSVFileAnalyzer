@@ -1,10 +1,10 @@
-import CSVConverter from './components/CSVConverter'
+import CSVUploader from './components/CSVUploader'
 
 function App() {
   return (
-    <>
-      <CSVConverter />
-    </>
+    <section className='home'>
+      <CSVUploader />
+    </section>
   )
 }
 
