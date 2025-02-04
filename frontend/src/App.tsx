@@ -1,5 +1,11 @@
+import CSVConverter from './components/CSVConverter'
+
 function App() {
-  return <></>
+  return (
+    <>
+      <CSVConverter />
+    </>
+  )
 }
 
 export default App
