@@ -1,9 +1,15 @@
 // Utils
+@import 'utils/variables';
 
 // Base
+@import 'base/base';
+@import 'base/typography';
 
 // Components
+@import 'components/csvUploader';
+@import 'components/uploadedFileCard';
 
 // Layout
+@import 'layout/home';
 
 // Pages
