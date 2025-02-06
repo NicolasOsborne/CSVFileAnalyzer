@@ -66,4 +66,12 @@
    &_input {
       display: none;
    }
+
+   &_error {
+      color: red;
+      font-size: 1rem;
+      font-weight: 600;
+      position: absolute;
+      top: 25rem;
+   }
 }

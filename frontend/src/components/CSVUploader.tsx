@@ -6,6 +6,7 @@ import { FiInfo, FiMinusCircle, FiPlusCircle } from 'react-icons/fi'
 
 const CSVUploader = () => {
   const [CSVFile, setCSVFile] = useState<File | null>(null)
+  const [wrongFileTypeError, setWrongFileTypeError] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
   const fileReader = new FileReader()
 
@@ -14,6 +15,9 @@ const CSVUploader = () => {
     if (file && file.type === 'text/csv') {
       setCSVFile(file)
       setIsDragging(false)
+      setWrongFileTypeError(false)
+    } else if (file && file.type !== 'text/csv') {
+      setWrongFileTypeError(true)
     }
   }
 
@@ -24,6 +28,9 @@ const CSVUploader = () => {
     const file = e.dataTransfer.files[0]
     if (file && file.type === 'text/csv') {
       setCSVFile(file)
+      setWrongFileTypeError(false)
+    } else if (file && file.type !== 'text/csv') {
+      setWrongFileTypeError(true)
     }
   }
 
@@ -119,6 +126,11 @@ const CSVUploader = () => {
           handleUpload={handleUpload}
           handleDelete={handleDelete}
         />
+      )}
+      {wrongFileTypeError && (
+        <p className='csvUploader_error'>
+          Cet outil n'accepte que les fichiers au format CSV !
+        </p>
       )}
     </section>
   )
