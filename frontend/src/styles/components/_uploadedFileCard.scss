@@ -9,6 +9,8 @@
    border: 2px solid $gray;
    border-radius: 1rem;
    color: $dark-gray;
+   position: absolute;
+   top: 25rem;
 
    &_summary {
       display: flex;
@@ -27,9 +29,14 @@
       color: $primary-color;
    }
 
-   &_name {}
+   &_name {
+      font-size: 1rem;
+      font-weight: 600;
+   }
 
-   &_meta {}
+   &_meta {
+      font-size: 0.75rem;
+   }
 
    &_actions {
       display: flex;

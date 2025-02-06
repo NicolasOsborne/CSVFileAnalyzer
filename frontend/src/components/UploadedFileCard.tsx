@@ -2,7 +2,23 @@ import { GoTrash } from 'react-icons/go'
 import { IoCloudUploadOutline } from 'react-icons/io5'
 import { MdFilePresent } from 'react-icons/md'
 
-const UploadedFileCard = ({ CSVFile, handleUpload, handleDelete }) => {
+interface CSVFile {
+  name: string
+  type: string
+  size: number
+}
+
+interface UploadedFileCardProps {
+  CSVFile: CSVFile
+  handleUpload: () => void
+  handleDelete: () => void
+}
+
+const UploadedFileCard: React.FC<UploadedFileCardProps> = ({
+  CSVFile,
+  handleUpload,
+  handleDelete,
+}) => {
   return (
     <div className='uploadedFile'>
       <div className='uploadedFile_summary'>

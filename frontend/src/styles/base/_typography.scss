@@ -10,3 +10,9 @@ h5,
 h6 {
    font-family: $font-title;
 }
+
+h1 {
+   font-size: 3rem;
+   font-weight: 600;
+   color: $primary-color;
+}

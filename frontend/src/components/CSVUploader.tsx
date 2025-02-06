@@ -1,37 +1,62 @@
 import { useState } from 'react'
-import { GoInfo, GoPlusCircle } from 'react-icons/go'
 import UploadedFileCard from './UploadedFileCard'
+import { FiInfo, FiMinusCircle, FiPlusCircle } from 'react-icons/fi'
+
+// import { uploadCSVFileToCloud } from '../api/api'
 
 const CSVUploader = () => {
-  const [CSVFile, setCSVFile] = useState(null)
+  const [CSVFile, setCSVFile] = useState<File | null>(null)
+  const [isDragging, setIsDragging] = useState(false)
   const fileReader = new FileReader()
 
-  const handleChange = (e) => {
-    const file = e.target.files[0]
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
     if (file && file.type === 'text/csv') {
       setCSVFile(file)
+      setIsDragging(false)
     }
   }
 
-  const handleDrop = (e) => {
+  const handleDrop = (e: React.DragEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setIsDragging(false)
+
     const file = e.dataTransfer.files[0]
     if (file && file.type === 'text/csv') {
       setCSVFile(file)
     }
   }
 
-  const handleDragOver = (e) => {
+  const handleDragOver = (e: React.DragEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setIsDragging(true)
+  }
+
+  const handleDragLeave = () => {
+    setIsDragging(false)
   }
 
   const handleDelete = () => {
     setCSVFile(null)
+    setIsDragging(false)
   }
 
-  const handleUpload = () => {
+  const handleUpload = async () => {
     if (CSVFile) {
+      // Code to update to upload file to the backend :
+
+      // const formData = new FormData()
+      // formData.append('file', CSVFile)
+      // try {
+      //   const response = await uploadCSVFileToCloud(formData)
+      //   console.log('File uploaded successfully: ', response)
+      // } catch (error) {
+      //   console.error('Upload faled: ', error)
+      // }
+
+      // Remove this later (at the moment, displays the csv in the console) :
       fileReader.onload = function (event) {
+        if (!event.target) return
         const CSVOutput = event.target.result
         console.log(CSVOutput)
       }
@@ -47,17 +72,36 @@ const CSVUploader = () => {
         className='csvUploader_form'
         onDrop={handleDrop}
         onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
       >
-        <label className='csvUploader_label' htmlFor='csvFileInput'>
-          <GoPlusCircle
-            size={42}
-            onClick={() => document.getElementById('csvFileInput').click()}
-          />
+        <label
+          className={`csvUploader_label ${
+            isDragging || CSVFile ? 'csvUploader_label--active' : ''
+          }`}
+          htmlFor='csvFileInput'
+        >
+          {CSVFile ? (
+            <FiMinusCircle
+              className='csvUploader_label-icon'
+              size={42}
+              onClick={handleDelete}
+            />
+          ) : (
+            <FiPlusCircle
+              className='csvUploader_label-icon'
+              size={42}
+              onClick={() =>
+                (
+                  document.getElementById('csvFileInput') as HTMLInputElement
+                )?.click()
+              }
+            />
+          )}
           <p className='csvUploader_label-text'>
             Déposez ou cliquez pour choisir un fichier à uploader
           </p>
           <span className='csvUploader_label-helper'>
-            <GoInfo size={20} />
+            <FiInfo size={20} />
             Type de fichier accepté : .csv
           </span>
           <input
@@ -66,7 +110,6 @@ const CSVUploader = () => {
             id='csvFileInput'
             accept='.csv'
             onChange={handleChange}
-            style={{ display: 'none' }}
           />
         </label>
       </form>
