@@ -1,10 +1,12 @@
 // Utils
+@import 'utils/variables';
 
 // Base
 @import 'base/base';
 
 // Components
 @import 'components/csvUploader';
+@import 'components/uploadedFileCard';
 
 // Layout
 @import 'layout/home';

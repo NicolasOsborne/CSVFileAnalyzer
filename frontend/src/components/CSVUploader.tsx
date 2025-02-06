@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { GoInfo, GoPlusCircle, GoTrash } from 'react-icons/go'
-import { IoCloudUploadOutline } from 'react-icons/io5'
+import { GoInfo, GoPlusCircle } from 'react-icons/go'
+import UploadedFileCard from './UploadedFileCard'
 
-function CSVUploader() {
+const CSVUploader = () => {
   const [CSVFile, setCSVFile] = useState(null)
   const fileReader = new FileReader()
 
@@ -71,31 +71,11 @@ function CSVUploader() {
         </label>
       </form>
       {CSVFile && (
-        <div className='csvUploader_file-card'>
-          <div className='csvUploader_file-info'>
-            <span className='csvUploader_file-icon'>📄</span>
-            <div>
-              <p className='csvUploader_file-name'>{CSVFile.name}</p>
-              <p className='csvUploader_file-meta'>
-                {CSVFile.type} - {(CSVFile.size / 1024).toFixed(2)} KB
-              </p>
-            </div>
-          </div>
-          <div className='csvUploader_file-actions'>
-            <button
-              className='csvUploader_button upload'
-              onClick={handleUpload}
-            >
-              <IoCloudUploadOutline size={20} />
-            </button>
-            <button
-              className='csvUploader_button delete'
-              onClick={handleDelete}
-            >
-              <GoTrash size={20} />
-            </button>
-          </div>
-        </div>
+        <UploadedFileCard
+          CSVFile={CSVFile}
+          handleUpload={handleUpload}
+          handleDelete={handleDelete}
+        />
       )}
     </section>
   )
