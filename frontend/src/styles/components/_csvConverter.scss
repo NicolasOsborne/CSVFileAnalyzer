@@ -2,7 +2,7 @@
    width: 100%;
    display: flex;
    flex-direction: column;
-   gap: 5rem;
+   gap: 2rem;
    align-items: center;
    justify-content: center;
 
@@ -12,5 +12,82 @@
       gap: 2rem;
       align-items: center;
       justify-content: center;
+   }
+
+   &_details {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      width: 100%;
+
+      &-backToHistory {
+         cursor: pointer;
+         display: flex;
+         flex-direction: row;
+         align-items: center;
+         justify-content: center;
+         gap: 0.5rem;
+         padding: 0.75rem 1rem;
+         width: fit-content;
+         border-radius: 10rem;
+         border: 1px solid $primary-color;
+         color: $primary-color;
+         font-weight: 600;
+         transition: all 0.3s ease-in-out;
+
+         &:hover {
+            border: 1px solid $white;
+            background-color: $primary-color;
+            color: $white;
+         }
+      }
+
+      &-info {
+         display: flex;
+         flex-direction: column;
+         align-items: flex-start;
+         justify-content: center;
+         gap: 2rem;
+      }
+
+      &-name {}
+
+      &-section {
+
+         &-title {
+            margin-bottom: 1rem;
+         }
+
+         table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid $dark-gray;
+
+            thead {
+
+               tr {
+
+                  th {
+                     background-color: lighten($primary-color, 40%);
+                     padding: 0.5rem;
+                     border: 1px solid $dark-gray;
+                  }
+               }
+            }
+
+            tbody {
+
+               tr {
+
+                  td {
+                     padding: 0.5rem;
+                     border: 1px solid $dark-gray;
+                  }
+               }
+            }
+         }
+      }
    }
 }

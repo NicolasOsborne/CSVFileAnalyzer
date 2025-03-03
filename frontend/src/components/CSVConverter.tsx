@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import HistoryFileCard from './HistoryFileCard'
+import { IoIosArrowBack } from 'react-icons/io'
 
 function CSVConverter() {
   const [CSVFile, setCSVFile] = useState()
@@ -111,7 +112,8 @@ function CSVConverter() {
                 className='csvConverter_details-backToHistory'
                 onClick={() => setShow(false)}
               >
-                Retour Historique
+                <IoIosArrowBack />
+                Retour à l'historique
               </button>
               {
                 <div className='csvConverter_details-info'>
@@ -122,10 +124,7 @@ function CSVConverter() {
                     <h3 className='csvConverter_details-section-title'>
                       Analyse
                     </h3>
-                    <table
-                      border='1'
-                      style={{ width: '100%', textAlign: 'left' }}
-                    >
+                    <table>
                       <thead>
                         <tr>
                           <th>Mean</th>
@@ -160,10 +159,7 @@ function CSVConverter() {
                     <h3 className='csvConverter_details-section-title'>
                       Produits Valides
                     </h3>
-                    <table
-                      border='1'
-                      style={{ width: '100%', textAlign: 'left' }}
-                    >
+                    <table>
                       <thead>
                         <tr>
                           <th>ID</th>
@@ -192,10 +188,7 @@ function CSVConverter() {
                     <h3 className='csvConverter_details-section-title'>
                       Produits en Erreur
                     </h3>
-                    <table
-                      border='1'
-                      style={{ width: '100%', textAlign: 'left' }}
-                    >
+                    <table>
                       <thead>
                         <tr>
                           <th>ID</th>
