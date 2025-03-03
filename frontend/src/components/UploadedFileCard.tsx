@@ -1,7 +1,7 @@
 import { GoTrash } from 'react-icons/go'
 import { IoCloudUploadOutline } from 'react-icons/io5'
 import { MdFilePresent } from 'react-icons/md'
-import {NavLink} from "react-router-dom";
+import { NavLink } from 'react-router-dom'
 
 interface CSVFile {
   name: string
@@ -33,9 +33,8 @@ const UploadedFileCard: React.FC<UploadedFileCardProps> = ({
       </div>
       <div className='uploadedFile_actions'>
         <NavLink to={'analyse'}>
-          <button className='uploadedFile_button upload' >
-
-              <IoCloudUploadOutline size={20} />
+          <button className='uploadedFile_button upload' onClick={handleUpload}>
+            <IoCloudUploadOutline size={20} />
           </button>
         </NavLink>
 
