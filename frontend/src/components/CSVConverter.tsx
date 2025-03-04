@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import {useState} from 'react'
 import HistoryFileCard from './HistoryFileCard'
 
 function CSVConverter() {
@@ -10,59 +10,33 @@ function CSVConverter() {
   const [historiqueCSV, setHistoriqueCSV] = useState<object[]>([])
   const [show, setShow] = useState<boolean>(false)
   const [detailAnnalyse, setDetailAnnalyse] = useState<object>({})
+  const [jsonData, setJsonData] = useState(null);
 
   const handleChange = (e) => {
     setCSVFile(e.target.files[0])
   }
 
-  const handleSubmit = (e) => {
+  const fetchData = async () => {
+    /*const essai = await fetch('/dataAnalyse.json');
+    console.log(await essai.json());*/
+    try {
+      const response = await fetch("/dataAnalyse.json");
+      if (!response.ok) {
+        throw new Error("Erreur lors du chargement du fichier");
+      }
+      return await response.json();
+    } catch (error) {
+      console.error("Erreur lors du chargement du JSON :", error);
+      return null;
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
     if (CSVFile) {
       const fileName = CSVFile.name.split('\\')
-      const CSVOutput = {
-        analysis: {
-          mean: '',
-          median: 'This is a median',
-          'standard-deviation': '',
-          'global-quantity': '',
-          'mean-score': '',
-        },
-        'list-product': {
-          product1: {
-            id: '1',
-            name: 'Nom du Produit 1',
-            price: '230',
-            quantity: '3',
-            score: '2.19',
-          },
-          product2: {
-            id: '2',
-            name: 'Nom du Produit 2',
-            price: '45',
-            quantity: '6',
-            score: '55.9',
-          },
-        },
-        'list-error': {
-          product1: {
-            id: '1',
-            name: 'Produit 3',
-            price: '55',
-            quantity: '1',
-            score: '22.9',
-            error: 'BAD name',
-          },
-          product2: {
-            id: '2',
-            name: 'Produit 2',
-            price: '660',
-            quantity: '3',
-            score: '33.5',
-            error: 'BAD name',
-          },
-        },
-      }
+      const CSVOutput = await fetchData();
 
       console.log(CSVOutput)
 
@@ -71,10 +45,10 @@ function CSVConverter() {
           console.log('icic')
           return prev
         }
-        console.log({ name: fileName[fileName.length - 1], content: CSVOutput })
+        console.log({name: fileName[fileName.length - 1], content: CSVOutput})
         return [
           ...prev,
-          { name: fileName[fileName.length - 1], content: CSVOutput },
+          {name: fileName[fileName.length - 1], content: CSVOutput},
         ]
       })
     }
@@ -83,6 +57,7 @@ function CSVConverter() {
   const showHistoriqueCSV = (analyse) => {
     setShow(true)
     setDetailAnnalyse(analyse)
+    console.log(analyse);
   }
   return (
     <div>
@@ -128,30 +103,30 @@ function CSVConverter() {
                     >
                       <thead>
                         <tr>
-                          <th>Mean</th>
-                          <th>Median</th>
-                          <th>Standard Deviation</th>
-                          <th>Global Quantity</th>
-                          <th>Mean Score</th>
+                          <th scope={"col"}></th>
+                          <th scope={"col"}>Mean</th>
+                          <th scope={"col"}>Median</th>
+                          <th scope={"col"}>Standard Deviation</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
-                          <td>{detailAnnalyse.content.analysis.mean}</td>
-                          <td>{detailAnnalyse.content.analysis.median}</td>
-                          <td>
-                            {
-                              detailAnnalyse.content.analysis[
-                                'standard-deviation'
-                              ]
-                            }
-                          </td>
-                          <td>
-                            {detailAnnalyse.content.analysis['global-quantity']}
-                          </td>
-                          <td>
-                            {detailAnnalyse.content.analysis['mean-score']}
-                          </td>
+                          <th scope={"row"}>Price</th>
+                          <td>{detailAnnalyse.content.analysis.price.mean}</td>
+                          <td>{detailAnnalyse.content.analysis.price.median}</td>
+                          <td>{detailAnnalyse.content.analysis.price.standardDeviation}</td>
+                        </tr>
+                        <tr>
+                          <th scope={"row"}>Quantity</th>
+                          <td>{detailAnnalyse.content.analysis.quantity.mean}</td>
+                          <td>{detailAnnalyse.content.analysis.quantity.median}</td>
+                          <td>{detailAnnalyse.content.analysis.quantity.standardDeviation}</td>
+                        </tr>
+                        <tr>
+                          <th scope={"row"}>Score</th>
+                          <td>{detailAnnalyse.content.analysis.score.mean}</td>
+                          <td>{detailAnnalyse.content.analysis.score.median}</td>
+                          <td>{detailAnnalyse.content.analysis.score.standardDeviation}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -170,19 +145,19 @@ function CSVConverter() {
                           <th>Nom</th>
                           <th>Prix</th>
                           <th>Quantité</th>
-                          <th>Score</th>
+                          <th>Note Client</th>
                         </tr>
                       </thead>
                       <tbody>
                         {Object.values(
-                          detailAnnalyse.content['list-product']
+                          detailAnnalyse.content['products']
                         ).map((product: any, idx) => (
                           <tr key={idx}>
-                            <td>{product.id}</td>
-                            <td>{product.name}</td>
-                            <td>{product.price}</td>
-                            <td>{product.quantity}</td>
-                            <td>{product.score}</td>
+                            <td>{product.ID}</td>
+                            <td>{product.Name}</td>
+                            <td>{product.Price}</td>
+                            <td>{product.Quantity}</td>
+                            <td>{product.Score}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -202,21 +177,21 @@ function CSVConverter() {
                           <th>Nom</th>
                           <th>Prix</th>
                           <th>Quantité</th>
-                          <th>Score</th>
+                          <th>Note Client</th>
                           <th>Erreur</th>
                         </tr>
                       </thead>
                       <tbody>
                         {Object.values(
-                          detailAnnalyse.content['list-error']
+                          detailAnnalyse.content['errors']
                         ).map((error: any, idx) => (
                           <tr key={idx}>
-                            <td>{error.id}</td>
-                            <td>{error.name}</td>
-                            <td>{error.price}</td>
-                            <td>{error.quantity}</td>
-                            <td>{error.score}</td>
-                            <td style={{ color: 'red' }}>{error.error}</td>
+                            <td>{error.ID}</td>
+                            <td>{error.Name}</td>
+                            <td>{error.Price}</td>
+                            <td>{error.Quantity}</td>
+                            <td>{error.Score}</td>
+                            <td style={{ color: 'red' }}>{error.ERROR}</td>
                           </tr>
                         ))}
                       </tbody>
