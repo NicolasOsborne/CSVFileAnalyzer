@@ -2,9 +2,10 @@
    width: 100%;
    display: flex;
    flex-direction: column;
-   gap: 5rem;
+   gap: 2rem;
    align-items: center;
    justify-content: center;
+   margin-bottom: 5rem;
 
    &_historyContainer {
       display: flex;
@@ -12,5 +13,87 @@
       gap: 2rem;
       align-items: center;
       justify-content: center;
+   }
+
+   &_details {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      width: 75%;
+
+      &-backToHistory {
+         cursor: pointer;
+         display: flex;
+         flex-direction: row;
+         align-items: center;
+         justify-content: center;
+         gap: 0.5rem;
+         padding: 0.75rem 1rem;
+         width: fit-content;
+         border-radius: 0.5rem;
+         border: 1px solid $primary-color;
+         color: $primary-color;
+         transition: all 0.3s ease-in-out;
+
+         &:hover {
+            border: 1px solid $white;
+            background-color: $primary-color;
+            color: $white;
+         }
+      }
+
+      &-info {
+         display: flex;
+         flex-direction: column;
+         align-items: flex-start;
+         justify-content: center;
+         gap: 2rem;
+      }
+
+      &-section {
+         width: 100%;
+
+         &-title {
+            margin-bottom: 1rem;
+         }
+
+         table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid $dark-gray;
+            text-align: center;
+
+            thead {
+               tr {
+                  th {
+                     background-color: $light-gray;
+                     padding: 0.5rem;
+                     border: 1px solid $dark-gray;
+                  }
+               }
+            }
+
+            tbody {
+               tr {
+                  th {
+                     background-color: $light-gray;
+                     padding: 0.5rem;
+                     border: 1px solid $dark-gray;
+                  }
+
+                  td {
+                     padding: 0.5rem;
+                     border: 1px solid $dark-gray;
+
+                     &.error {
+                        color: $red;
+                        font-weight: 600;
+                        background-color: $red-background;
+                     }
+                  }
+               }
+            }
+         }
+      }
    }
 }

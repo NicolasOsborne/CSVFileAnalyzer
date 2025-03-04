@@ -725,7 +725,7 @@
       "Price": 62.87,
       "Quantity": 36,
       "Score": 4.2,
-      "ERROR": "BAD name"
+      "errorType": "BAD name"
     },
     {
       "ID": 334,
@@ -733,7 +733,7 @@
       "Price": 62.87,
       "Quantity": 36,
       "Score": 4.2,
-      "ERROR": "BAD name"
+      "errorType": "BAD name"
     }
   ]
 }
