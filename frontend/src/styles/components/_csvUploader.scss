@@ -27,14 +27,14 @@
       border-width: 2px;
       border-radius: 1rem;
       border-style: dashed;
-      border-color: $primary-color;
+      border-color: $primary;
       background-color: $light-gray;
       color: $dark-gray;
       cursor: pointer;
       transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
 
       &-icon {
-         color: $primary-color;
+         color: $primary;
          transition: color 0.2s ease-in-out;
       }
 
@@ -53,7 +53,7 @@
       }
 
       &--active {
-         background-color: $primary-color;
+         background-color: $primary;
          color: $light-gray;
          border-color: $gray;
 

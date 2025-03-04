@@ -31,13 +31,13 @@
          padding: 0.75rem 1rem;
          width: fit-content;
          border-radius: 0.5rem;
-         border: 1px solid $primary-color;
-         color: $primary-color;
+         border: 1px solid $primary;
+         color: $primary;
          transition: all 0.3s ease-in-out;
 
          &:hover {
             border: 1px solid $white;
-            background-color: $primary-color;
+            background-color: $primary;
             color: $white;
          }
       }
@@ -66,7 +66,7 @@
             thead {
                tr {
                   th {
-                     background-color: $light-gray;
+                     background-color: $primary-light;
                      padding: 0.5rem;
                      border: 1px solid $dark-gray;
                   }
@@ -76,7 +76,7 @@
             tbody {
                tr {
                   th {
-                     background-color: $light-gray;
+                     background-color: $primary-light;
                      padding: 0.5rem;
                      border: 1px solid $dark-gray;
                   }
