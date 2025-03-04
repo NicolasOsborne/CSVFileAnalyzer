@@ -105,7 +105,7 @@ const CSVUploader = () => {
             />
           )}
           <p className='csvUploader_label-text'>
-            Déposez ou cliquez pour choisir un fichier à uploader
+            Déposez ou cliquez pour choisir un fichier à télécharger
           </p>
           <span className='csvUploader_label-helper'>
             <FiInfo size={20} />

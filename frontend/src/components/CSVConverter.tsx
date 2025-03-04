@@ -2,25 +2,54 @@ import { useState } from 'react'
 import HistoryFileCard from './HistoryFileCard'
 import { IoIosArrowBack } from 'react-icons/io'
 
+type CSVAnalysis = {
+  analysis: {
+    mean: string
+    median: string
+    'standard-deviation': string
+    'global-quantity': string
+    'mean-score': string
+  }
+  'list-product': Record<string, Product>
+  'list-error': Record<string, Product & { error?: string }>
+}
+
+type Product = {
+  id: string
+  name: string
+  price: string
+  quantity: string
+  score: string
+}
+
+type CSVHistoryItem = {
+  name: string
+  content: CSVAnalysis
+}
+
 function CSVConverter() {
-  const [CSVFile, setCSVFile] = useState()
+  const [CSVFile, setCSVFile] = useState<File | null>(null)
   const [csvOutput, setCsvOutput] = useState<object | null>({
     headers: [],
     rows: [],
   })
-  const [historiqueCSV, setHistoriqueCSV] = useState<object[]>([])
+  const [historiqueCSV, setHistoriqueCSV] = useState<CSVHistoryItem[]>([])
   const [show, setShow] = useState<boolean>(false)
-  const [detailAnnalyse, setDetailAnnalyse] = useState<object>({})
+  const [detailAnalyse, setDetailAnalyse] = useState<CSVHistoryItem | null>(
+    null
+  )
 
-  const handleChange = (e) => {
-    setCSVFile(e.target.files[0])
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setCSVFile(e.target.files[0])
+    }
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault()
 
     if (CSVFile) {
-      const fileName = CSVFile.name.split('\\')
+      const fileName = CSVFile ? CSVFile.name.split('\\') : []
       const CSVOutput = {
         analysis: {
           mean: '',
@@ -68,11 +97,10 @@ function CSVConverter() {
       console.log(CSVOutput)
 
       setHistoriqueCSV((prev) => {
-        if (prev.some((item) => item.name === fileName)) {
+        if (prev.some((item) => item.name === fileName[fileName.length - 1])) {
           console.log('icic')
           return prev
         }
-        console.log({ name: fileName[fileName.length - 1], content: CSVOutput })
         return [
           ...prev,
           { name: fileName[fileName.length - 1], content: CSVOutput },
@@ -81,10 +109,11 @@ function CSVConverter() {
     }
   }
 
-  const showHistoriqueCSV = (analyse) => {
+  const showHistoriqueCSV = (analyse: CSVHistoryItem) => {
     setShow(true)
-    setDetailAnnalyse(analyse)
+    setDetailAnalyse(analyse)
   }
+
   return (
     <div>
       <form>
@@ -117,9 +146,11 @@ function CSVConverter() {
               </button>
               {
                 <div className='csvConverter_details-info'>
-                  <h2 className='csvConverter_details-name'>
-                    {detailAnnalyse.name}
-                  </h2>
+                  {detailAnalyse && (
+                    <h2 className='csvConverter_details-name'>
+                      {detailAnalyse.name}
+                    </h2>
+                  )}
                   <div className='csvConverter_details-section'>
                     <h3 className='csvConverter_details-section-title'>
                       Analyse
@@ -135,23 +166,29 @@ function CSVConverter() {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>{detailAnnalyse.content.analysis.mean}</td>
-                          <td>{detailAnnalyse.content.analysis.median}</td>
-                          <td>
-                            {
-                              detailAnnalyse.content.analysis[
-                                'standard-deviation'
-                              ]
-                            }
-                          </td>
-                          <td>
-                            {detailAnnalyse.content.analysis['global-quantity']}
-                          </td>
-                          <td>
-                            {detailAnnalyse.content.analysis['mean-score']}
-                          </td>
-                        </tr>
+                        {detailAnalyse && (
+                          <tr>
+                            <td>{detailAnalyse.content.analysis.mean}</td>
+                            <td>{detailAnalyse.content.analysis.median}</td>
+                            <td>
+                              {
+                                detailAnalyse.content.analysis[
+                                  'standard-deviation'
+                                ]
+                              }
+                            </td>
+                            <td>
+                              {
+                                detailAnalyse.content.analysis[
+                                  'global-quantity'
+                                ]
+                              }
+                            </td>
+                            <td>
+                              {detailAnalyse.content.analysis['mean-score']}
+                            </td>
+                          </tr>
+                        )}
                       </tbody>
                     </table>
                   </div>
@@ -171,9 +208,9 @@ function CSVConverter() {
                       </thead>
                       <tbody>
                         {Object.values(
-                          detailAnnalyse.content['list-product']
-                        ).map((product: any, idx) => (
-                          <tr key={idx}>
+                          detailAnalyse?.content['list-product'] || {}
+                        ).map((product: Product) => (
+                          <tr key={product.id}>
                             <td>{product.id}</td>
                             <td>{product.name}</td>
                             <td>{product.price}</td>
@@ -201,9 +238,9 @@ function CSVConverter() {
                       </thead>
                       <tbody>
                         {Object.values(
-                          detailAnnalyse.content['list-error']
-                        ).map((error: any, idx) => (
-                          <tr key={idx}>
+                          detailAnalyse?.content['list-error'] || {}
+                        ).map((error: Product & { error?: string }) => (
+                          <tr key={error.id}>
                             <td>{error.id}</td>
                             <td>{error.name}</td>
                             <td>{error.price}</td>
@@ -219,7 +256,7 @@ function CSVConverter() {
               }
             </div>
           </>
-        ) : historiqueCSV.length > 0 ? (
+        ) : (
           <>
             <h1 className='csvUploader_title'>
               Historique des téléchargements
@@ -234,7 +271,7 @@ function CSVConverter() {
               ))}
             </div>
           </>
-        ) : null}
+        )}
       </section>
     </div>
   )
