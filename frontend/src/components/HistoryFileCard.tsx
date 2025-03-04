@@ -21,7 +21,13 @@ const HistoryFileCard: React.FC<HistoryFileCardProps> = ({
         <MdFilePresent className='historyFile_icon' size={30} />
         <div className='historyFile_info'>
           <p className='historyFile_name'>{CSVFile.name}</p>
-          <p className='historyFile_status'>{CSVFile.status}</p>
+          <p
+            className={`historyFile_status ${
+              CSVFile.status === 'OK' ? 'ok' : 'error'
+            }`}
+          >
+            {CSVFile.status}
+          </p>
         </div>
       </div>
       <div className='historyFile_actions'>

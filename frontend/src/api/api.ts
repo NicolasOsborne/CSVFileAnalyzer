@@ -1,8 +1,6 @@
 import axios from 'axios'
 
-// TO UPDATE depending on backend logic and code ?
-
-const API_URL = 'https://127.0.0.1:8000/api'
+const API_URL = import.meta.env.VITE_REACT_APP_AZURE_API_URL
 
 const api = axios.create({
   baseURL: API_URL,
@@ -11,10 +9,10 @@ const api = axios.create({
   },
 })
 
-// Send file to backend
+// Send CSV file to backend
 export const uploadCSVFileToCloud = async (formData: FormData) => {
   try {
-    const response = await api.post('/upload', formData)
+    const response = await api.post('', formData)
     return response.data
   } catch (error) {
     console.error('Error uploading file: ', error)

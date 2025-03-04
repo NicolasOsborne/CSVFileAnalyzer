@@ -1,14 +1,20 @@
 import { useState } from 'react'
 import UploadedFileCard from './UploadedFileCard'
+import { CSVAnalysis } from './CSVConverter'
 import { FiInfo, FiMinusCircle, FiPlusCircle } from 'react-icons/fi'
 
-// import { uploadCSVFileToCloud } from '../api/api'
+import { uploadCSVFileToCloud } from '../api/api'
 
-const CSVUploader = () => {
+const CSVUploader = ({
+  setAnalysisResult,
+  setFileName,
+}: {
+  setAnalysisResult: React.Dispatch<React.SetStateAction<CSVAnalysis | null>>
+  setFileName: React.Dispatch<React.SetStateAction<string | null>>
+}) => {
   const [CSVFile, setCSVFile] = useState<File | null>(null)
   const [wrongFileTypeError, setWrongFileTypeError] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
-  const fileReader = new FileReader()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -50,25 +56,31 @@ const CSVUploader = () => {
 
   const handleUpload = async () => {
     if (CSVFile) {
-      // Code to update to upload file to the backend :
+      const formData = new FormData()
+      formData.append('file', CSVFile)
+      try {
+        const response = await uploadCSVFileToCloud(formData)
+        console.log('File uploaded successfully: ', response)
 
-      // const formData = new FormData()
-      // formData.append('file', CSVFile)
-      // try {
-      //   const response = await uploadCSVFileToCloud(formData)
-      //   console.log('File uploaded successfully: ', response)
-      // } catch (error) {
-      //   console.error('Upload faled: ', error)
-      // }
+        if (response) {
+          const previousResponses = JSON.parse(
+            localStorage.getItem('csvAnalysisHistory') || '[]'
+          )
+          const updatedResponses = [
+            ...previousResponses,
+            { name: CSVFile.name, content: response },
+          ]
+          localStorage.setItem(
+            'csvAnalysisHistory',
+            JSON.stringify(updatedResponses)
+          )
 
-      // Remove this later (at the moment, displays the csv in the console) :
-      fileReader.onload = function (event) {
-        if (!event.target) return
-        const CSVOutput = event.target.result
-        console.log(CSVOutput)
+          setAnalysisResult(response)
+          setFileName(CSVFile.name)
+        }
+      } catch (error) {
+        console.error('Upload failed: ', error)
       }
-
-      fileReader.readAsText(CSVFile)
     }
   }
 
