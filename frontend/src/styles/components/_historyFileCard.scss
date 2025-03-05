@@ -9,6 +9,25 @@
    border: 2px solid $gray;
    border-radius: 1rem;
    color: $dark-gray;
+   transition: all 0.3s ease-in-out;
+
+   &.ok {
+      border: 2px solid $green;
+
+      &:hover {
+         background-color: $green-background;
+         border: 2px solid $primary;
+      }
+   }
+
+   &.error {
+      border: 2px solid $red;
+
+      &:hover {
+         background-color: $red-background;
+         border: 2px solid $primary;
+      }
+   }
 
    &_summary {
       display: flex;

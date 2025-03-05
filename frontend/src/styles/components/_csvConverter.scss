@@ -90,6 +90,12 @@
                         font-weight: 600;
                         background-color: $red-background;
                      }
+
+                     &.no-errors {
+                        color: $green;
+                        font-weight: 600;
+                        background-color: $green-background;
+                     }
                   }
                }
             }
