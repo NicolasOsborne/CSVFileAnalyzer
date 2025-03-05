@@ -4,13 +4,16 @@ import { CSVAnalysis } from './CSVConverter'
 import { FiInfo, FiMinusCircle, FiPlusCircle } from 'react-icons/fi'
 
 import { uploadCSVFileToCloud } from '../api/api'
+import { toast } from 'react-toastify'
 
 const CSVUploader = ({
   setAnalysisResult,
   setFileName,
+  setLoading,
 }: {
   setAnalysisResult: React.Dispatch<React.SetStateAction<CSVAnalysis | null>>
   setFileName: React.Dispatch<React.SetStateAction<string | null>>
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>
 }) => {
   const [CSVFile, setCSVFile] = useState<File | null>(null)
   const [wrongFileTypeError, setWrongFileTypeError] = useState(false)
@@ -58,28 +61,40 @@ const CSVUploader = ({
     if (CSVFile) {
       const formData = new FormData()
       formData.append('file', CSVFile)
+      setLoading(true)
       try {
         const response = await uploadCSVFileToCloud(formData)
         console.log('File uploaded successfully: ', response)
 
+        toast.success('Le fichier CSV a bien été téléchargé !')
+
         if (response) {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { products, ...responseWithoutProducts } = response
+
           const previousResponses = JSON.parse(
             localStorage.getItem('csvAnalysisHistory') || '[]'
           )
           const updatedResponses = [
             ...previousResponses,
-            { name: CSVFile.name, content: response },
+            { name: CSVFile.name, content: responseWithoutProducts },
           ]
           localStorage.setItem(
             'csvAnalysisHistory',
             JSON.stringify(updatedResponses)
           )
 
-          setAnalysisResult(response)
+          setAnalysisResult(responseWithoutProducts)
           setFileName(CSVFile.name)
         }
       } catch (error) {
         console.error('Upload failed: ', error)
+
+        toast.error(
+          'Echec, le téléchargement du fichier a échoué. Veuillez réessayer !'
+        )
+      } finally {
+        setLoading(false)
       }
     }
   }

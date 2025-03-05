@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import HistoryFileCard from './HistoryFileCard'
 import { IoIosArrowBack } from 'react-icons/io'
+import { toast } from 'react-toastify'
+import Spinner from './Spinner'
 
 export type CSVAnalysis = {
   analysis: {
@@ -13,17 +15,17 @@ export type CSVAnalysis = {
 }
 
 type StatValues = {
-  mean: string
-  median: string
-  standardDeviation: string
+  mean: number
+  median: number
+  standardDeviation: number
 }
 
 type Product = {
-  id: string
+  id: number
   name: string
-  price: string
-  quantity: string
-  score: string
+  price: number
+  quantity: number
+  score: number
 }
 
 type CSVHistoryItem = {
@@ -34,9 +36,14 @@ type CSVHistoryItem = {
 type CSVConverterProps = {
   analysisResult: CSVAnalysis | null
   fileName: string | null
+  loading: boolean
 }
 
-function CSVConverter({ analysisResult, fileName }: CSVConverterProps) {
+function CSVConverter({
+  analysisResult,
+  fileName,
+  loading,
+}: CSVConverterProps) {
   const [historiqueCSV, setHistoriqueCSV] = useState<CSVHistoryItem[]>([])
   const [show, setShow] = useState<boolean>(false)
   const [detailAnalyse, setDetailAnalyse] = useState<CSVHistoryItem | null>(
@@ -56,6 +63,17 @@ function CSVConverter({ analysisResult, fileName }: CSVConverterProps) {
         ...prev,
         { name: fileName, content: analysisResult },
       ])
+
+      const errorCount = Object.keys(analysisResult.errors).length
+      if (errorCount === 0) {
+        toast.success(
+          'Le fichier a bien été analysé, il ne comporte aucune erreur !'
+        )
+      } else {
+        toast.error(
+          `Le fichier a bien été analysé, il comporte ${errorCount} erreur(s). Veuillez consulter le récapitulatif pour plus d'informations !`
+        )
+      }
     }
   }, [analysisResult, fileName])
 
@@ -66,6 +84,7 @@ function CSVConverter({ analysisResult, fileName }: CSVConverterProps) {
 
   return (
     <section className='csvConverter'>
+      {loading && <Spinner />}
       {historiqueCSV.length > 0 && show ? (
         <>
           <h1 className='csvConverter_title'>Détails de l'analyse</h1>
@@ -104,39 +123,56 @@ function CSVConverter({ analysisResult, fileName }: CSVConverterProps) {
                       <tbody>
                         <tr>
                           <th scope={'row'}>Prix</th>
-                          <td>{detailAnalyse.content.analysis.price.mean}</td>
-                          <td>{detailAnalyse.content.analysis.price.median}</td>
                           <td>
-                            {
-                              detailAnalyse.content.analysis.price
-                                .standardDeviation
-                            }
+                            {detailAnalyse.content.analysis.price.mean.toFixed(
+                              2
+                            )}
+                          </td>
+                          <td>
+                            {detailAnalyse.content.analysis.price.median.toFixed(
+                              2
+                            )}
+                          </td>
+                          <td>
+                            {detailAnalyse.content.analysis.price.standardDeviation.toFixed(
+                              2
+                            )}
                           </td>
                         </tr>
                         <tr>
                           <th scope={'row'}>Quantité</th>
                           <td>
-                            {detailAnalyse.content.analysis.quantity.mean}
+                            {detailAnalyse.content.analysis.quantity.mean.toFixed(
+                              2
+                            )}
                           </td>
                           <td>
-                            {detailAnalyse.content.analysis.quantity.median}
+                            {detailAnalyse.content.analysis.quantity.median.toFixed(
+                              2
+                            )}
                           </td>
                           <td>
-                            {
-                              detailAnalyse.content.analysis.quantity
-                                .standardDeviation
-                            }
+                            {detailAnalyse.content.analysis.quantity.standardDeviation.toFixed(
+                              2
+                            )}
                           </td>
                         </tr>
                         <tr>
                           <th scope={'row'}>Notes</th>
-                          <td>{detailAnalyse.content.analysis.score.mean}</td>
-                          <td>{detailAnalyse.content.analysis.score.median}</td>
                           <td>
-                            {
-                              detailAnalyse.content.analysis.score
-                                .standardDeviation
-                            }
+                            {detailAnalyse.content.analysis.score.mean.toFixed(
+                              2
+                            )}
+                          </td>
+                          <td>
+                            {detailAnalyse.content.analysis.score.median.toFixed(
+                              2
+                            )}
+                          </td>
+                          <td>
+                            {detailAnalyse.content.analysis.score.standardDeviation.toFixed(
+                              2
+                            )}
                           </td>
                         </tr>
                       </tbody>
@@ -145,7 +181,13 @@ function CSVConverter({ analysisResult, fileName }: CSVConverterProps) {
                 </div>
                 <div className='csvConverter_details-section'>
                   <h3 className='csvConverter_details-section-title'>
-                    Produits en Erreur
+                    Produits en Erreur{' '}
+                    <span className='errors'>
+                      {Object.keys(detailAnalyse?.content['errors'] ?? {})
+                        .length > 0
+                        ? `(${detailAnalyse?.content.errors.length} erreurs)`
+                        : ''}
+                    </span>
                   </h3>
                   <table>
                     <thead>
@@ -165,50 +207,31 @@ function CSVConverter({ analysisResult, fileName }: CSVConverterProps) {
                           detailAnalyse?.content['errors'] ?? {}
                         ).map((error: Product & { errorType?: string }) => (
                           <tr key={error.id}>
-                            <td>{error.id}</td>
-                            <td>{error.name}</td>
-                            <td>{error.price}</td>
-                            <td>{error.quantity}</td>
-                            <td>{error.score}</td>
+                            <td className={error.id === 0 ? 'error' : ''}>
+                              {error.id}
+                            </td>
+                            <td className={error.name === '0' ? 'error' : ''}>
+                              {error.name}
+                            </td>
+                            <td className={error.price === 0 ? 'error' : ''}>
+                              {error.price}
+                            </td>
+                            <td className={error.quantity === 0 ? 'error' : ''}>
+                              {error.quantity}
+                            </td>
+                            <td className={error.score === 0 ? 'error' : ''}>
+                              {error.score}
+                            </td>
                             <td className='error'>{error.errorType}</td>
                           </tr>
                         ))
                       ) : (
                         <tr>
                           <td colSpan={6} className='no-errors'>
-                            ✅ Le fichier ne contient pas d'erreurs
+                            ✅ Le fichier ne contient pas d'erreur
                           </td>
                         </tr>
                       )}
-                    </tbody>
-                  </table>
-                </div>
-                <div className='csvConverter_details-section'>
-                  <h3 className='csvConverter_details-section-title'>
-                    Produits Valides
-                  </h3>
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>ID</th>
-                        <th>Nom</th>
-                        <th>Prix</th>
-                        <th>Quantité</th>
-                        <th>Note Client</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {Object.values(
-                        detailAnalyse?.content['products'] ?? {}
-                      ).map((product: Product) => (
-                        <tr key={product.id}>
-                          <td>{product.id}</td>
-                          <td>{product.name}</td>
-                          <td>{product.price}</td>
-                          <td>{product.quantity}</td>
-                          <td>{product.score}</td>
-                        </tr>
-                      ))}
                     </tbody>
                   </table>
                 </div>
@@ -227,8 +250,8 @@ function CSVConverter({ analysisResult, fileName }: CSVConverterProps) {
                   name: file.name,
                   status:
                     Object.keys(file.content.errors).length > 0
-                      ? 'ERREUR'
-                      : 'OK',
+                      ? `${file.content.errors.length} ERREURS`
+                      : "PAS D'ERREUR",
                 }}
                 seeDetails={() => showHistoriqueCSV(file)}
               />
