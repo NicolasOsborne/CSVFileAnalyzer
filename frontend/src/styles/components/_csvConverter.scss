@@ -21,7 +21,16 @@
       gap: 2rem;
       width: 75%;
 
-      &-backToHistory {
+      &-buttons {
+         display: flex;
+         flex-direction: row;
+         align-items: center;
+         justify-content: space-between;
+         width: 100%;
+      }
+
+      &-backToHistory,
+      &-sendByEmail {
          cursor: pointer;
          display: flex;
          flex-direction: row;
@@ -55,6 +64,10 @@
 
          &-title {
             margin-bottom: 1rem;
+         }
+
+         .errors {
+            color: $red;
          }
 
          table {
