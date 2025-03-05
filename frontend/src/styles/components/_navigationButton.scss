@@ -1,7 +1,8 @@
 .navigationButton {
    display: flex;
-   align-items: flex-start;
-   margin: 1rem 12rem;
+   align-items: center;
+   justify-content: center;
+   margin: 2rem auto;
 
    button {
       cursor: pointer;
