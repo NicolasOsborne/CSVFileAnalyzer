@@ -13,7 +13,7 @@ function NavigationButton() {
           {isHomePage ? (
             <span>
               <GoHistory size={15} />
-              Afficher l'historique
+              Afficher l'historique des téléchargements
             </span>
           ) : (
             <span>
