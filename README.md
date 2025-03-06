@@ -12,7 +12,8 @@ L'objectif du projet est le suivant :
 - L'analyse automatique des fichiers sur un service cloud serverless.
 - La détection d'anomalies dans les données.
 - La visualisation des résultats via l'interface web.
-- L'envoi d'un récapitulatif des analyses par notification (email, push...).
+- L'envoi d'un récapitulatif des analyses par notification.
+- La possibilité d'envoyer le récapitulatif de l'analyse par email à l'admin.
 
 ### 🛠️ Technologies utilisées
 
@@ -43,14 +44,19 @@ L'objectif du projet est le suivant :
 
 ### 3️⃣ Configurer les variables d'environnement :
 
-Dans le dossier /frontend, à la racine, créer un fichier .env.local pour définir la route de l'API Azure :
+Dans le dossier /frontend, à la racine, créer un fichier .env.local pour définir la route de l'API Azure ainsi que les clés pour EmailJS:
 
 ```bash
 VITE_REACT_APP_AZURE_API_URL='https://XXXXXX.azurewebsites.net/api/csvanalyzer?YYYYYY'
+
+VITE_REACT_APP_EMAILJS_SERVICE_KEY='service_id'
+VITE_REACT_APP_EMAILJS_TEMPLATE_ID='template_id'
+VITE_REACT_APP_EMAILJS_PUBLIC_KEY='public_key'
 ```
 
-Remplacer XXXXXX par l'URL de l'API
-Remplacer YYYYYY par la clé de l'API
+Remplacer XXXXXX et YYYYYY par l'URL et la clé de l'API
+Remplacer les service_id, template_id et public_key pour utiliser le service EmailJS
+(Voir les variables fournies pour exécuter le projet)
 
 ### 4️⃣ Lancer le projet :
 
