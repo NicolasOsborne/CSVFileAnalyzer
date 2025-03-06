@@ -1,0 +1,36 @@
+body {
+   font-family: $font-body;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+   font-family: $font-title;
+}
+
+h1 {
+   font-size: 3rem;
+   font-weight: 600;
+   color: $primary;
+}
+
+h2 {
+   font-size: 2rem;
+   font-weight: 600;
+   color: $primary;
+}
+
+h3 {
+   font-size: 1.5rem;
+   font-weight: 600;
+   color: $primary;
+}
+
+h4 {
+   font-size: 1rem;
+   font-weight: 500;
+   color: $primary;
+}

@@ -1,9 +1,18 @@
 // Utils
+@import 'utils/variables';
 
 // Base
+@import 'base/base';
+@import 'base/typography';
 
 // Components
+@import 'components/csvUploader';
+@import 'components/uploadedFileCard';
+@import 'components/csvConverter';
+@import 'components/historyFileCard';
+@import 'components/navigationButton';
+@import 'components/toastify';
+@import 'components/spinner';
 
 // Layout
-
-// Pages
+@import 'layout/home';

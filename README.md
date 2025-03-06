@@ -13,14 +13,16 @@ L'objectif du projet est le suivant :
 - La détection d'anomalies dans les données.
 - La visualisation des résultats via l'interface web.
 - L'envoi d'un récapitulatif des analyses par notification (email, push...).
--
 
 ### 🛠️ Technologies utilisées
 
-- **React** : Pour l'interface web
+- **React**
 - **TypeScript**
+- **SCSS**
 
 ## 📋 Prérequis
+
+- Node.js
 
 ## 🚀 Guide d'installation
 
@@ -41,6 +43,15 @@ L'objectif du projet est le suivant :
 
 ### 3️⃣ Configurer les variables d'environnement :
 
+Dans le dossier /frontend, à la racine, créer un fichier .env.local pour définir la route de l'API Azure :
+
+```bash
+VITE_REACT_APP_AZURE_API_URL='https://XXXXXX.azurewebsites.net/api/csvanalyzer?YYYYYY'
+```
+
+Remplacer XXXXXX par l'URL de l'API
+Remplacer YYYYYY par la clé de l'API
+
 ### 4️⃣ Lancer le projet :
 
 ```bash
@@ -50,3 +61,7 @@ L'objectif du projet est le suivant :
 ## 🌐 Accéder à l'application
 
 L'application est accessible à l'URL : http://localhost:5173
+
+Vous pouvez maintenant déposer ou choisir un fichier CSV à télécharger.
+Une fois le fichier téléchargé, en cliquant le bouton d'upload, le fichier est envoyé au backend Azure pour être analysé.
+Le résultat de l'analyse est renvoyé par l'API et il est alors possible de consulter les résultats de l'analyse dans l'interface web.
