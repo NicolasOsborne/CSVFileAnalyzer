@@ -199,7 +199,6 @@ function CSVConverter({
 
   return (
     <section className='csvConverter'>
-      {loading && <Spinner />}
       {historiqueCSV.length > 0 && show ? (
         <>
           <h1 className='csvConverter_title'>Détails de l'analyse</h1>
@@ -367,6 +366,7 @@ function CSVConverter({
         <>
           <h1 className='csvUploader_title'>Historique des téléchargements</h1>
           <div className='csvConverter_historyContainer'>
+            {loading && <Spinner />}
             {historiqueCSV.map((file, index) => (
               <HistoryFileCard
                 key={index}
